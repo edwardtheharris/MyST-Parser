@@ -21,7 +21,7 @@ SPHINX_LOGGER = logging.getLogger(__name__)
 class MystParser(Parser):
     """Docutils parser for Markedly Structured Text (MyST)."""
 
-    supported: Tuple[str, ...] = ("md", "markdown", "myst")
+    supported: Tuple[str, ...] = ("mst", "MyST", "myst")
     """Aliases this parser supports."""
 
     settings_spec = RstParser.settings_spec
@@ -77,7 +77,7 @@ def parse(app: Sphinx, text: str, docname: str = "index") -> nodes.document:
     with sphinx_domains(app.env):
         return publish_doctree(
             text,
-            path.join(app.srcdir, docname + ".md"),
+            path.join(app.srcdir, docname + ".mst"),
             reader=reader,
             parser=parser,
             parser_name="markdown",

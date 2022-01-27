@@ -214,7 +214,7 @@ def minimal_sphinx_app(
             self.srcdir = srcdir
             self.confdir = None
             self.outdir = ""
-            self.project = Project(srcdir=srcdir, source_suffix={".md": "markdown"})
+            self.project = Project(srcdir=srcdir, source_suffix={".mst": "MyST"})
             self.project.docnames = {"mock_docname"}
             self.env = BuildEnvironment()
             self.env.setup(self)

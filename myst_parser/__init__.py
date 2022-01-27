@@ -11,7 +11,7 @@ def setup(app):
     """Initialize Sphinx extension."""
     from myst_parser.sphinx_parser import MystParser
 
-    app.add_source_suffix(".md", "markdown")
+    app.add_source_suffix(".mst", "MyST")
     app.add_source_parser(MystParser)
 
     setup_sphinx(app)

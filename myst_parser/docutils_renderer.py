@@ -1330,7 +1330,7 @@ class DocutilsRenderer(RendererProtocol):
             variable_context["env"] = self.sphinx_env
 
         # fail on undefined variables
-        env = jinja2.Environment(undefined=jinja2.StrictUndefined)
+        env = jinja2.Environment(undefined=jinja2.StrictUndefined, autoescape=True)
 
         # try rendering
         try:

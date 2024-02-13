@@ -95,7 +95,7 @@ class MdParserConfig:
     def check_extensions(self, attribute, value):
         if not isinstance(value, Iterable):
             raise TypeError(f"myst_enable_extensions not iterable: {value}")
-        diff = set(value).difference(
+        if diff := set(value).difference(
             [
                 "dollarmath",
                 "amsmath",
@@ -111,8 +111,7 @@ class MdParserConfig:
                 "substitution",
                 "tasklist",
             ]
-        )
-        if diff:
+        ):
             raise ValueError(f"myst_enable_extensions not recognised: {diff}")
 
     disable_syntax: Iterable[str] = attr.ib(

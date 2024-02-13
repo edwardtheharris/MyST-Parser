@@ -117,8 +117,7 @@ class SphinxRenderer(DocutilsRenderer):
             text = ""
 
         self.add_line_and_source_path(wrap_node, token)
-        title = token.attrGet("title")
-        if title:
+        if title := token.attrGet("title"):
             wrap_node["title"] = title
         self.current_node.append(wrap_node)
 
@@ -140,8 +139,7 @@ class SphinxRenderer(DocutilsRenderer):
             return
 
         # create the slug string
-        slug = cast(str, token.attrGet("id"))
-        if slug is None:
+        if (slug := cast(str, token.attrGet("id"))) is None:
             return
 
         section = self.current_node

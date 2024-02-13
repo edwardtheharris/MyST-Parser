@@ -157,8 +157,7 @@ def create_myst_config(
         if attribute.name in excluded:
             continue
         setting = f"{prefix}{attribute.name}"
-        val = getattr(settings, setting, DOCUTILS_UNSET)
-        if val is not DOCUTILS_UNSET:
+        if (val := getattr(settings, setting, DOCUTILS_UNSET)) is not DOCUTILS_UNSET:
             values[attribute.name] = val
     return config_cls(**values)
 

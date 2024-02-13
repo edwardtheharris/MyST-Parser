@@ -47,8 +47,7 @@ class MystReferenceResolver(ReferencesResolver):
             domain = None
 
             try:
-                newnode = self.resolve_myst_ref(refdoc, node, contnode)
-                if newnode is None:
+                if (newnode := self.resolve_myst_ref(refdoc, node, contnode)) is None:
                     # no new node found? try the missing-reference event
                     # but first we change the the reftype to 'any'
                     # this means it is picked up by extensions like intersphinx
@@ -97,21 +96,18 @@ class MystReferenceResolver(ReferencesResolver):
         target = node["reftarget"]  # type: str
         results = []  # type: List[Tuple[str, Element]]
 
-        res_anchor = self._resolve_anchor(node, refdoc)
-        if res_anchor:
+        if res_anchor := self._resolve_anchor(node, refdoc):
             results.append(("std:doc", res_anchor))
         else:
             # if we've already found an anchored doc,
             # don't search in the std:ref/std:doc (leads to duplication)
 
             # resolve standard references
-            res = self._resolve_ref_nested(node, refdoc)
-            if res:
+            if res := self._resolve_ref_nested(node, refdoc):
                 results.append(("std:ref", res))
 
             # resolve doc names
-            res = self._resolve_doc_nested(node, refdoc)
-            if res:
+            if res := self._resolve_doc_nested(node, refdoc):
                 results.append(("std:doc", res))
 
         # get allowed domains for referencing
@@ -207,8 +203,7 @@ class MystReferenceResolver(ReferencesResolver):
             return None
         # the link may be a heading anchor; we need to first get the relative path
         rel_path, anchor = target.rsplit("#", 1)
-        rel_path = os.path.normpath(rel_path)
-        if rel_path == ".":
+        if (rel_path := os.path.normpath(rel_path)) == ".":
             # anchor in the same doc as the node
             doc_path = self.env.doc2path(node.get("refdoc", fromdocname), base=False)
         else:

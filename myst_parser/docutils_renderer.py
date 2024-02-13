@@ -274,8 +274,7 @@ class DocutilsRenderer(RendererProtocol):
         # now add the wordcount as substitution definitions,
         # so we can reference them in the document
         for key in ("words", "minutes"):
-            value = wordcount_metadata.get(key, None)
-            if value is None:
+            if (value := wordcount_metadata.get(key, None)) is None:
                 continue
             substitution_node = nodes.substitution_definition(
                 str(value), nodes.Text(str(value))
@@ -695,8 +694,7 @@ class DocutilsRenderer(RendererProtocol):
         ref_node = nodes.reference()
         self.add_line_and_source_path(ref_node, token)
         ref_node["refuri"] = cast(str, token.attrGet("href") or "")
-        title = token.attrGet("title")
-        if title:
+        if title := token.attrGet("title"):
             ref_node["title"] = title
         with self.current_node_context(ref_node, append=True):
             self.render_children(token)
@@ -716,8 +714,7 @@ class DocutilsRenderer(RendererProtocol):
         self.add_line_and_source_path(ref_node, token)
         ref_node["refname"] = cast(str, token.attrGet("href") or "")
         self.document.note_refname(ref_node)
-        title = token.attrGet("title")
-        if title:
+        if title := token.attrGet("title"):
             ref_node["title"] = title
         with self.current_node_context(ref_node, append=True):
             self.render_children(token)
@@ -757,8 +754,7 @@ class DocutilsRenderer(RendererProtocol):
         img_node["uri"] = destination
 
         img_node["alt"] = self.renderInlineAsText(token.children or [])
-        title = token.attrGet("title")
-        if title:
+        if title := token.attrGet("title"):
             img_node["title"] = token.attrGet("title")
         self.current_node.append(img_node)
 
@@ -1351,8 +1347,7 @@ class DocutilsRenderer(RendererProtocol):
             n.name for n in ast.find_all(jinja2.nodes.Name) if n.name != "env"
         }
         self.document.sub_references = getattr(self.document, "sub_references", set())
-        cyclic = references.intersection(self.document.sub_references)
-        if cyclic:
+        if cyclic := references.intersection(self.document.sub_references):
             error_msg = self.reporter.error(
                 f"circular substitution reference: {cyclic}",
                 line=position,
